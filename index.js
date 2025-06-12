@@ -5,14 +5,15 @@ import usersRoutes from './routes/users.js';
 
 const init = async () => {
   const server = Hapi.server({
-    port: 3001,
-    host: 'localhost',
+    port: process.env.PORT || 3001,
+    host: "0.0.0.0", // penting untuk Railway!
     routes: {
       cors: {
-        origin: ['*'], // biar bisa diakses frontend
+        origin: ["*"], // masih OK untuk testing, bisa diatur nanti
       },
     },
   });
+
 
   server.route([...usersRoutes, ...historyRoutes]);
   server.route(predictRoutes);

@@ -1,69 +1,67 @@
+import axios from 'axios';
+import FormData from 'form-data';
 import fs from 'fs';
-import path from 'path';
+import { supabase } from '../connect/supabase.js';
+
+const API_BASE_URL = "https://api-model-v1.onrender.com/";
 
 export default [
   {
     method: 'POST',
     path: '/predict',
-    handler: (request, h) => {
+    options: {
+      payload: {
+        output: 'file',         // Supaya bisa akses file path
+        parse: true,
+        multipart: true,
+        allow: 'multipart/form-data',
+        maxBytes: 5 * 1024 * 1024, // Max 5 MB
+      },
+    },
+    handler: async (request, h) => {
       try {
-        // Baca isi file diagnosis
-        const filePath = path.resolve('data/diseases-data.json');
-        const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+        const file = request.payload.image; // Key harus 'image'
 
-        // Ambil 1 data secara acak
-        const randomDiagnosis = data[Math.floor(Math.random() * data.length)];
+        // Buat form-data untuk dikirim ke API model ML
+        const form = new FormData();
+        form.append('image', fs.createReadStream(file.path), file.filename);
 
-        // Return sebagai respons
-        return h.response(randomDiagnosis).code(200);
+        // Kirim file ke API model ML
+        const response = await axios.post(
+          `${API_BASE_URL}/predict`,
+          form,
+          {
+            headers: form.getHeaders(),
+          }
+        );
+
+        const { prediction } = response.data;
+
+        // Ambil data dari tabel dataDisease berdasarkan prediksi
+        const { data: diseaseData, error } = await supabase
+          .from('dataDisease')
+          .select('explanation, treatment')
+          .eq('name', prediction)
+          .single();
+
+        if (error) {
+          console.error('Error fetching disease data:', error.message);
+          return h.response({ error: 'Failed to fetch disease data' }).code(500);
+        }
+
+        // Gabungkan hasil prediksi dengan data dari Supabase
+        const result = {
+          prediction,
+          explanation: diseaseData.explanation,
+          treatment: diseaseData.treatment,
+        };
+
+        return h.response(result).code(200);
       } catch (err) {
-        console.error('Error in /predict demo:', err);
-        return h.response({ error: 'Prediction failed (demo)' }).code(500);
+        console.error('[PREDICT ERROR]', err.message);
+        return h.response({ error: 'Prediction failed' }).code(500);
       }
     },
-  }
+  },
 ];
-
-
-
-// import axios from 'axios';
-// import FormData from 'form-data';
-// import fs from 'fs';
-
-// export default [
-//   {
-//     method: 'POST',
-//     path: '/predict',
-//     options: {
-//       payload: {
-//         output: 'file',         // supaya bisa akses file path
-//         parse: true,
-//         multipart: true,
-//         allow: 'multipart/form-data',
-//         maxBytes: 5 * 1024 * 1024, // max 5 MB
-//       },
-//     },
-//     handler: async (request, h) => {
-//       try {
-//         const file = request.payload.image; // key harus 'image'
-
-//         const form = new FormData();
-//         form.append('file', fs.createReadStream(file.path), file.filename);
-
-//         const response = await axios.post(
-//           'https://api-model-v1.onrender.com/predict',
-//           form,
-//           {
-//             headers: form.getHeaders(),
-//           }
-//         );
-
-//         return h.response(response.data).code(200);
-//       } catch (err) {
-//         console.error('[PREDICT ERROR]', err.message);
-//         return h.response({ error: 'Prediction failed' }).code(500);
-//       }
-//     },
-//   },
-// ];
 
