@@ -1,0 +1,149 @@
+[
+  {
+    "label": "Acne",
+    "confidence": 0.92,
+    "explanation": "Acne terjadi saat pori-pori kulit tersumbat oleh minyak dan sel kulit mati.",
+    "treatment": "Gunakan produk dengan benzoil peroksida atau asam salisilat.",
+    "image": "../assets/diseases-pict/Acne.jpeg"
+  },
+  {
+    "label": "Actinic Keratosis",
+    "confidence": 0.88,
+    "explanation": "Kelainan kulit akibat paparan sinar matahari jangka panjang.",
+    "treatment": "Gunakan krim topikal atau lakukan cryotherapy.",
+    "image": "../assets/diseases-pict/Actinic Keratosis.jpeg"
+  },
+  {
+    "label": "Benign Tumors",
+    "confidence": 0.87,
+    "explanation": "Tumor jinak kulit yang tidak bersifat kanker.",
+    "treatment": "Dapat dibiarkan atau diangkat jika mengganggu.",
+    "image": "../assets/diseases-pict/Benign Tumors.jpeg"
+  },
+  {
+    "label": "Bullous",
+    "confidence": 0.86,
+    "explanation": "Kondisi kulit yang ditandai dengan lepuhan besar berisi cairan.",
+    "treatment": "Gunakan obat anti-inflamasi atau kortikosteroid.",
+    "image": "../assets/diseases-pict/Bullous.jpeg"
+  },
+  {
+    "label": "Candidiasis",
+    "confidence": 0.90,
+    "explanation": "Infeksi kulit akibat jamur Candida.",
+    "treatment": "Gunakan krim antijamur dan jaga area tetap kering.",
+    "image": "../assets/diseases-pict/Candidiasis.jpeg"
+  },
+  {
+    "label": "Drug Eruption",
+    "confidence": 0.85,
+    "explanation": "Reaksi alergi pada kulit akibat obat tertentu.",
+    "treatment": "Hentikan obat penyebab dan konsultasikan ke dokter.",
+    "image": "../assets/diseases-pict/Drug Eruption.jpeg"
+  },
+  {
+    "label": "Eczema",
+    "confidence": 0.89,
+    "explanation": "Peradangan kulit kronis yang menyebabkan gatal dan ruam.",
+    "treatment": "Gunakan pelembap dan hindari pemicu alergi.",
+    "image": "../assets/diseases-pict/Eczema.jpeg"
+  },
+  {
+    "label": "Infestations Bites",
+    "confidence": 0.84,
+    "explanation": "Reaksi kulit terhadap gigitan serangga atau infestasi parasit.",
+    "treatment": "Gunakan losion anti-gatal dan lindungi kulit dari gigitan.",
+    "image": "../assets/diseases-pict/Infestations Bites.jpeg"
+  },
+  {
+    "label": "Lichen",
+    "confidence": 0.82,
+    "explanation": "Kondisi kulit yang menyebabkan bercak kasar dan gatal.",
+    "treatment": "Kortikosteroid topikal atau antihistamin.",
+    "image": "../assets/diseases-pict/Lichen.jpeg"
+  },
+  {
+    "label": "Lupus",
+    "confidence": 0.91,
+    "explanation": "Penyakit autoimun yang mempengaruhi kulit dan organ dalam.",
+    "treatment": "Kortikosteroid dan imunomodulator sesuai resep dokter.",
+    "image": "../assets/diseases-pict/Lupus.jpeg"
+  },
+  {
+    "label": "Moles",
+    "confidence": 0.88,
+    "explanation": "Bintik coklat gelap di kulit, biasanya jinak.",
+    "treatment": "Pantau perubahan ukuran atau warna, konsultasikan jika perlu.",
+    "image": "../assets/diseases-pict/Moles.jpeg"
+  },
+  {
+    "label": "Psoriasis",
+    "confidence": 0.90,
+    "explanation": "Kondisi kulit kronis yang menyebabkan bercak merah bersisik.",
+    "treatment": "Gunakan salep kortikosteroid dan pelembap intensif.",
+    "image": "../assets/diseases-pict/Psoriasis.jpeg"
+  },
+  {
+    "label": "Rosacea",
+    "confidence": 0.85,
+    "explanation": "Kemerahan di wajah dan pembuluh darah yang terlihat.",
+    "treatment": "Gunakan gel metronidazole dan hindari pemicu seperti alkohol.",
+    "image": "../assets/diseases-pict/Rosacea.jpeg"
+  },
+  {
+    "label": "Seborrheic Keratoses",
+    "confidence": 0.84,
+    "explanation": "Pertumbuhan kulit jinak yang menyerupai kutil.",
+    "treatment": "Dapat dihilangkan secara kosmetik jika diperlukan.",
+    "image": "../assets/diseases-pict/Seborrheic Keratoses.jpeg"
+  },
+  {
+    "label": "Skin Cancer",
+    "confidence": 0.94,
+    "explanation": "Pertumbuhan sel kulit abnormal, biasanya karena UV.",
+    "treatment": "Segera konsultasikan ke dokter kulit atau onkologi.",
+    "image": "../assets/diseases-pict/Skin Cancer.jpeg"
+  },
+  {
+    "label": "Sunlight Damage",
+    "confidence": 0.83,
+    "explanation": "Kerusakan kulit akibat paparan sinar matahari berlebihan.",
+    "treatment": "Gunakan sunscreen dan produk perawatan kulit anti-aging.",
+    "image": "../assets/diseases-pict/Sunlight Damage.jpeg"
+  },
+  {
+    "label": "Tinea",
+    "confidence": 0.86,
+    "explanation": "Infeksi jamur pada kulit yang menyebabkan bercak merah gatal.",
+    "treatment": "Gunakan krim antijamur secara rutin.",
+    "image": "../assets/diseases-pict/Tinea.jpeg"
+  },
+  {
+    "label": "Vascular Tumors",
+    "confidence": 0.83,
+    "explanation": "Pertumbuhan pembuluh darah abnormal pada kulit.",
+    "treatment": "Laser atau terapi sesuai diagnosis dokter.",
+    "image": "../assets/diseases-pict/Vascular Tumors.jpeg"
+  },
+  {
+    "label": "Vasculitis",
+    "confidence": 0.85,
+    "explanation": "Peradangan pembuluh darah yang dapat memengaruhi kulit.",
+    "treatment": "Konsultasikan dengan dokter untuk terapi imun atau kortikosteroid.",
+    "image": "../assets/diseases-pict/Vasculitis.jpeg"
+  },
+  {
+    "label": "Vitiligo",
+    "confidence": 0.89,
+    "explanation": "Hilangnya pigmen pada kulit sehingga muncul bercak putih.",
+    "treatment": "Terapi cahaya, kortikosteroid, atau camouflage makeup.",
+    "image": "../assets/diseases-pict/Vitiligo.jpeg"
+  },
+  {
+    "label": "Warts",
+    "confidence": 0.87,
+    "explanation": "Pertumbuhan kulit kasar yang disebabkan oleh HPV.",
+    "treatment": "Cryotherapy atau salep asam salisilat.",
+    "image": "../assets/diseases-pict/Warts.jpeg"
+  }
+]
