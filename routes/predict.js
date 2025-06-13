@@ -17,21 +17,30 @@ export default [
       },
     },
     handler: async (request, h) => {
-      const file = request.payload.image;
-      if (!file?.path) {
-        console.error("File not received!");
-        return h.response({ error: "Image file missing" }).code(400);
-      }
-
-      const form = new FormData();
-      form.append("image", fs.createReadStream(file.path), file.filename);
-
       try {
-        const response = await axios.post(
-          "https://api-model-v1.onrender.com/predict",
-          form,
-          { headers: form.getHeaders() }
-        );
+        const file = request.payload.image;
+
+        console.log("=== File Metadata ===");
+        console.log("Filename:", file?.filename);
+        console.log("Path:", file?.path);
+        console.log("Mimetype:", file?.headers?.["content-type"]);
+        console.log("Size:", file?.bytes);
+
+        if (!file || !file.path) {
+          return h.response({ error: "No file received" }).code(400);
+        }
+
+        const form = new FormData();
+        form.append("image", fs.createReadStream(file.path), file.filename);
+
+        console.log("Sending to ML API...");
+
+        const response = await axios.post(`${API_BASE_URL}/predict`, form, {
+          headers: form.getHeaders(),
+          timeout: 15000,
+        });
+
+        console.log("ML API response:", response.data);
 
         const { prediction } = response.data;
         const { data: diseaseData, error } = await supabase
@@ -45,11 +54,13 @@ export default [
           return h.response({ error: "Failed to fetch explanation" }).code(500);
         }
 
-        return h.response({
-          prediction,
-          explanation: diseaseData.explanation,
-          treatment: diseaseData.treatment,
-        }).code(200);
+        return h
+          .response({
+            prediction,
+            explanation: diseaseData.explanation,
+            treatment: diseaseData.treatment,
+          })
+          .code(200);
       } catch (err) {
         console.error("[PREDICT ERROR]", err.message);
         return h.response({ error: "Prediction failed" }).code(500);
