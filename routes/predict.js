@@ -19,6 +19,8 @@ export default [
       },
     },
     handler: async (request, h) => {
+      console.log(request.payload);
+      console.log('File received:', request.payload?.image);
       try {
         const file = request.payload.image; // Key harus 'image'
 

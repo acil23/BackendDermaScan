@@ -14,7 +14,7 @@ const init = async () => {
     },
   });
 
-
+  await server.register(require('@hapi/inert'));
   server.route([...usersRoutes, ...historyRoutes]);
   server.route(predictRoutes);
 
