@@ -12,11 +12,13 @@ const init = async () => {
       cors: {
         origin: ["*"],
         credentials: true,
-        additionalHeaders: [
-          "content-type",
+        headers: [
+          "Accept",
+          "Content-Type",
+          "Authorization",
           "cache-control",
           "x-requested-with",
-        ],
+        ], // ← ini penting
         additionalExposedHeaders: ["Accept", "Content-Type", "Authorization"],
       },
     },
