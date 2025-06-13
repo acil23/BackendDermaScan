@@ -10,7 +10,7 @@ const init = async () => {
     host: "0.0.0.0",
     routes: {
       cors: {
-        origin: ["*"],
+        origin: ["http://localhost:3000"], // Ganti '*' jika ingin lebih aman
         credentials: true,
         headers: [
           "Accept",
@@ -18,20 +18,18 @@ const init = async () => {
           "Authorization",
           "cache-control",
           "x-requested-with",
-        ], // ← ini penting
-        additionalExposedHeaders: ["Accept", "Content-Type", "Authorization"],
+        ],
+        additionalHeaders: ["content-type"], // ← tambahkan jika error tetap muncul
+        exposedHeaders: ["Accept", "Content-Type", "Authorization"],
       },
     },
   });
 
   await server.register(inert);
 
-  server.route([
-    ...usersRoutes,
-    ...historyRoutes,
-    ...predictRoutes, // <- gabung semua ke dalam satu route array
-  ]);
+  server.route([...usersRoutes, ...historyRoutes, ...predictRoutes]);
 
+  // Tangani semua preflight request OPTIONS agar nggak error 415
   server.route({
     method: "OPTIONS",
     path: "/{any*}",
