@@ -1,16 +1,18 @@
-import Hapi from '@hapi/hapi';
-import predictRoutes from './routes/predict.js';
-import historyRoutes from './routes/history.js';
-import usersRoutes from './routes/users.js';
-import inert from '@hapi/inert';
+import Hapi from "@hapi/hapi";
+import predictRoutes from "./routes/predict.js";
+import historyRoutes from "./routes/history.js";
+import usersRoutes from "./routes/users.js";
+import inert from "@hapi/inert";
 
 const init = async () => {
   const server = Hapi.server({
     port: process.env.PORT || 3001,
-    host: '0.0.0.0',
+    host: "0.0.0.0", // penting untuk Railway!
     routes: {
       cors: {
-        origin: ['*'],
+        origin: ["*"], // 🔥 sementara, izinkan semua origin
+        headers: ["Accept", "Content-Type", "Authorization"], // tambahan header yang umum
+        additionalHeaders: ["X-Requested-With"],
       },
     },
   });
@@ -24,7 +26,7 @@ const init = async () => {
   ]);
 
   await server.start();
-  console.log('🚀 Server running at:', server.info.uri);
+  console.log("🚀 Server running at:", server.info.uri);
 };
 
 init();
