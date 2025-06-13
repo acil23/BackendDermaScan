@@ -7,12 +7,13 @@ import inert from "@hapi/inert";
 const init = async () => {
   const server = Hapi.server({
     port: process.env.PORT || 3001,
-    host: "0.0.0.0", // penting untuk Railway!
+    host: "0.0.0.0",
     routes: {
       cors: {
-        origin: ["*"], // 🔥 sementara, izinkan semua origin
-        headers: ["Accept", "Content-Type", "Authorization"], // tambahan header yang umum
-        additionalHeaders: ["X-Requested-With"],
+        origin: ["*"], // atau ['http://localhost:3000']
+        credentials: true,
+        additionalHeaders: ["cache-control", "x-requested-with"],
+        additionalExposedHeaders: ["Accept", "Content-Type", "Authorization"],
       },
     },
   });
@@ -24,6 +25,14 @@ const init = async () => {
     ...historyRoutes,
     ...predictRoutes, // <- gabung semua ke dalam satu route array
   ]);
+
+  server.route({
+    method: "OPTIONS",
+    path: "/{any*}",
+    handler: (request, h) => {
+      return h.response().code(200);
+    },
+  });
 
   await server.start();
   console.log("🚀 Server running at:", server.info.uri);
