@@ -2,6 +2,7 @@ import Hapi from '@hapi/hapi';
 import predictRoutes from './routes/predict.js';
 import historyRoutes from './routes/history.js';
 import usersRoutes from './routes/users.js';
+import inert from '@hapi/inert';
 
 const init = async () => {
   const server = Hapi.server({
@@ -14,7 +15,7 @@ const init = async () => {
     },
   });
 
-  await server.register(require('@hapi/inert'));
+  await server.register(inert);
   server.route([...usersRoutes, ...historyRoutes]);
   server.route(predictRoutes);
 
