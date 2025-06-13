@@ -51,7 +51,7 @@ export default [
         const { data: diseaseData, error } = await supabase
           .from("dataDisease")
           .select("explanation, treatment")
-          .eq("name", prediction)
+          .ilike("name", prediction)
           .maybeSingle();
 
         if (error) {
