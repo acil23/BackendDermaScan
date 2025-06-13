@@ -47,6 +47,7 @@ export default [
         console.log("ML API response:", response.data);
 
         const { prediction } = response.data;
+
         const { data: diseaseData, error } = await supabase
           .from("dataDisease")
           .select("explanation, treatment")
