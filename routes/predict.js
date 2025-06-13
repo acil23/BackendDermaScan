@@ -3,6 +3,8 @@ import FormData from "form-data";
 import axios from "axios";
 import { supabase } from "../connect/supabase.js";
 
+const API_BASE_URL = process.env.API_BASE_URL;
+
 export default [
   {
     method: "POST",
