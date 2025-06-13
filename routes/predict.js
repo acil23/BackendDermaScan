@@ -1,9 +1,7 @@
-import axios from "axios";
-import FormData from "form-data";
 import fs from "fs";
+import FormData from "form-data";
+import axios from "axios";
 import { supabase } from "../connect/supabase.js";
-
-const API_BASE_URL = "https://api-model-v1.onrender.com/";
 
 export default [
   {
@@ -11,34 +9,31 @@ export default [
     path: "/predict",
     options: {
       payload: {
-        output: "stream", // Supaya bisa akses file path
+        output: "file",
         parse: true,
         multipart: true,
         allow: "multipart/form-data",
-        maxBytes: 5 * 1024 * 1024, // Max 5 MB
+        maxBytes: 5 * 1024 * 1024,
       },
     },
     handler: async (request, h) => {
-      console.log(request.payload);
-      console.log("File received:", request.payload?.image);
-      console.log("Payload keys:", Object.keys(request.payload));
-      console.log("Image file path:", request.payload.image?.path);
+      const file = request.payload.image;
+      if (!file?.path) {
+        console.error("File not received!");
+        return h.response({ error: "Image file missing" }).code(400);
+      }
+
+      const form = new FormData();
+      form.append("image", fs.createReadStream(file.path), file.filename);
 
       try {
-        const file = request.payload.image; // Key harus 'image'
-
-        // Buat form-data untuk dikirim ke API model ML
-        const form = new FormData();
-        form.append("image", fs.createReadStream(file.path), file.filename);
-
-        // Kirim file ke API model ML
-        const response = await axios.post(`${API_BASE_URL}/predict`, form, {
-          headers: form.getHeaders(),
-        });
+        const response = await axios.post(
+          "https://api-model-v1.onrender.com/predict",
+          form,
+          { headers: form.getHeaders() }
+        );
 
         const { prediction } = response.data;
-
-        // Ambil data dari tabel dataDisease berdasarkan prediksi
         const { data: diseaseData, error } = await supabase
           .from("dataDisease")
           .select("explanation, treatment")
@@ -46,20 +41,15 @@ export default [
           .single();
 
         if (error) {
-          console.error("Error fetching disease data:", error.message);
-          return h
-            .response({ error: "Failed to fetch disease data" })
-            .code(500);
+          console.error("Supabase error:", error.message);
+          return h.response({ error: "Failed to fetch explanation" }).code(500);
         }
 
-        // Gabungkan hasil prediksi dengan data dari Supabase
-        const result = {
+        return h.response({
           prediction,
           explanation: diseaseData.explanation,
           treatment: diseaseData.treatment,
-        };
-
-        return h.response(result).code(200);
+        }).code(200);
       } catch (err) {
         console.error("[PREDICT ERROR]", err.message);
         return h.response({ error: "Prediction failed" }).code(500);
