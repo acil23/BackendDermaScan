@@ -51,9 +51,10 @@ export default [
         const cleanedPrediction = prediction.trim();
 
         const { data, error } = await supabase
-          .from("dataDisease")
+          .from("disease_data")
           .select("explanation, treatment")
-          .ilike("name", cleanedPrediction);
+          .eq("name", prediction.trim())
+          .maybeSingle();
 
         console.log("Hasil query:", data);
 
