@@ -3,8 +3,6 @@ import FormData from "form-data";
 import axios from "axios";
 import { supabase } from "../connect/supabase.js";
 
-const API_BASE_URL = process.env.API_BASE_URL;
-
 export default [
   {
     method: "POST",
@@ -37,7 +35,7 @@ export default [
 
         console.log("Sending to ML API...");
 
-        const response = await axios.post(`${API_BASE_URL}/predict`, form, {
+        const response = await axios.post(`https://api-model-v1.onrender.com/predict`, form, {
           headers: form.getHeaders(),
           timeout: 15000,
         });
