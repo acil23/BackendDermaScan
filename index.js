@@ -10,9 +10,13 @@ const init = async () => {
     host: "0.0.0.0",
     routes: {
       cors: {
-        origin: ["*"], // atau ['http://localhost:3000']
+        origin: ["*"],
         credentials: true,
-        additionalHeaders: ["cache-control", "x-requested-with"],
+        additionalHeaders: [
+          "content-type",
+          "cache-control",
+          "x-requested-with",
+        ],
         additionalExposedHeaders: ["Accept", "Content-Type", "Authorization"],
       },
     },
