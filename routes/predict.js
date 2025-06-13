@@ -58,19 +58,17 @@ export default [
 
         console.log("Hasil query:", data);
 
-        if (!data || data.length === 0) {
+        if (!data) {
           return h
             .response({ error: `No explanation found for "${prediction}"` })
             .code(404);
         }
 
-        const diseaseData = data[0];
-
         return h
           .response({
             prediction,
-            explanation: diseaseData.explanation,
-            treatment: diseaseData.treatment,
+            explanation: data.explanation,
+            treatment: data.treatment,
           })
           .code(200);
       } catch (err) {
