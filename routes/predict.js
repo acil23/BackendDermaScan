@@ -48,10 +48,14 @@ export default [
 
         const { prediction } = response.data;
 
+        const cleanedPrediction = prediction.trim(); // Trim spasi
+        console.log("Prediction from ML:", prediction);
+        console.log("Cleaned Prediction:", cleanedPrediction);
+
         const { data: diseaseData, error } = await supabase
           .from("dataDisease")
           .select("explanation, treatment")
-          .ilike("name", prediction)
+          .ilike("name", cleanedPrediction)
           .maybeSingle();
 
         if (error) {
