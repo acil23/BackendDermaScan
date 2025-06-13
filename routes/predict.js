@@ -35,10 +35,14 @@ export default [
 
         console.log("Sending to ML API...");
 
-        const response = await axios.post(`https://api-model-v1.onrender.com/predict`, form, {
-          headers: form.getHeaders(),
-          timeout: 15000,
-        });
+        const response = await axios.post(
+          `https://api-model-v1.onrender.com/predict`,
+          form,
+          {
+            headers: form.getHeaders(),
+            timeout: 15000,
+          }
+        );
 
         console.log("ML API response:", response.data);
 
@@ -47,11 +51,17 @@ export default [
           .from("dataDisease")
           .select("explanation, treatment")
           .eq("name", prediction)
-          .single();
+          .maybeSingle();
 
         if (error) {
           console.error("Supabase error:", error.message);
           return h.response({ error: "Failed to fetch explanation" }).code(500);
+        }
+
+        if (!diseaseData) {
+          return h
+            .response({ error: `No explanation found for "${prediction}"` })
+            .code(404);
         }
 
         return h
