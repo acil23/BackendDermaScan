@@ -48,26 +48,22 @@ export default [
 
         const { prediction } = response.data;
 
-        const cleanedPrediction = prediction.trim(); // Trim spasi
-        console.log("Prediction from ML:", prediction);
-        console.log("Cleaned Prediction:", cleanedPrediction);
+        const cleanedPrediction = prediction.trim();
 
-        const { data: diseaseData, error } = await supabase
+        const { data, error } = await supabase
           .from("dataDisease")
           .select("explanation, treatment")
-          .ilike("name", cleanedPrediction)
-          .maybeSingle();
+          .ilike("name", cleanedPrediction);
 
-        if (error) {
-          console.error("Supabase error:", error.message);
-          return h.response({ error: "Failed to fetch explanation" }).code(500);
-        }
+        console.log("Hasil query:", data);
 
-        if (!diseaseData) {
+        if (!data || data.length === 0) {
           return h
             .response({ error: `No explanation found for "${prediction}"` })
             .code(404);
         }
+
+        const diseaseData = data[0];
 
         return h
           .response({
